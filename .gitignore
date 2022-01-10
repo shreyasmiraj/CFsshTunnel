@@ -1,0 +1,7 @@
+CFsshTunnel.egg-info
+build
+dist
+venv
+cloudflared.log
+settings.json
+*.pyc
