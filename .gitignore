@@ -1,7 +1,8 @@
-CFsshTunnel.egg-info
+*.egg-info
 build
 dist
 venv
 cloudflared.log
 settings.json
 *.pyc
+__pycache__
