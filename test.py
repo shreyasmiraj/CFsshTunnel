@@ -4,7 +4,10 @@ if __name__ == "__main__":
     
     #Check required packages on server and install if required
     install_package("openssh-server")
-    install_package("cloudflared")
+    
+    cloudflare_deb_path = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"
+    deb_package_installer(cloudflare_deb_path)
+    
 
     #accepts List[str] or just str
     print("\nProvide public auth key for current user running the test server")

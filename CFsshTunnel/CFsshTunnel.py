@@ -2,6 +2,8 @@ from CFsshTunnel import *
 from typing import List
 import random
 
+from CFsshTunnel.package_installer import deb_package_installer
+
 def cloud_ssh_tunnel(ssh_port=random.randint(49153,65534), sshd_config_params: List[str]=[], public_keys: List[str]=[], keep_alive: bool = True):
     """
     Configures and initiates server as specified by default/user
@@ -13,8 +15,11 @@ def cloud_ssh_tunnel(ssh_port=random.randint(49153,65534), sshd_config_params: L
     """
     #Check required packages on server and install if required
     install_package("openssh-server")
-    install_package("cloudflared")
 
+    # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation
+    cloudflare_deb_path = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"
+    deb_package_installer(cloudflare_deb_path)
+    
     #accepts List[str] or just str
     add_authorized_public_keys(public_keys = public_keys)
         
