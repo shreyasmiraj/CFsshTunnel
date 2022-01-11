@@ -2,7 +2,6 @@
 	- Currently only supports quick free tunnels from cloudflare
 	- sshd_config parameters can be changed as required
 	- run `make build-whl pip-install` to build and install the package
-	- run `make test` and `make lanch_server` as sudo since it requires editing of /etc/sshd_config
 	- run `make launch_server` on linux server to start the server tunnel
 	- connect to the tunneled server from either windows or linux ssh client through the domain assigned
 
@@ -20,8 +19,13 @@ import CFsshTunnel
 #Run either with all default parameters or update as needed
 CFsshTunnel.cloud_ssh_tunnel()	
 ```
+##Uninstallation
+```
+pip uninstall CFsshTunnel
+```
 
-In case for runtime error due to failure to acquire cloudflare tunnel just restart the server, should work in try or two
+execute as root/sudo user since python-apt, /etc/ssh/sshd_config and ~/.ssh/config require that access
+In case of runtime error due to failure to acquire cloudflare tunnel, just restart the server, should work in a try or two
 ssh Port designation is set to random between `49153 to 65534` unless specified
 cloudflare logging should be available as ./cloudflared.log
 cloudflare metrics will be on ssh://localhost:ssh_port+1
