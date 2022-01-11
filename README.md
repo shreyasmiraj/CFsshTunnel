@@ -9,7 +9,7 @@ Dependencies on server side: python>=3.8, pip, python-apt, make
 
 ##pip installation
 ```
-pip install CFsshTunnel==0.2
+pip install CFsshTunnel==0.3
 ```
 
 Using it directly from python notebook/script
