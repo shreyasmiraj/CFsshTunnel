@@ -2,6 +2,10 @@ from CFsshTunnel import *
 
 if __name__ == "__main__":
     
+    #Check required packages on server and install if required
+    install_package("openssh-server")
+    install_package("cloudflared")
+
     #accepts List[str] or just str
     print("\nProvide public auth key for current user running the test server")
     add_authorized_public_keys()
@@ -13,7 +17,7 @@ if __name__ == "__main__":
     start_ssh_server()
 
     #create a trycloudflare.com free tunnel and route ssh://localhost:ssh_port throught the assigned public domain
-    config_params, hostname = create_cf_tunnel(ssh_port)
+    config_params, hostname = create_cf_tunnel(ssh_port,test=True)
 
     #update client side ssh_config_params
     ssh_config(config_params)

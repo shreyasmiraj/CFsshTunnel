@@ -2,12 +2,21 @@ import subprocess
 import time
 import urllib.request
 import getpass
+from typing import List, Union
 
-def create_cf_tunnel(ssh_port: int) -> int:
+
+def create_cf_tunnel(ssh_port: int, test: bool = False) -> Union[List[str],str]:
     """
-        Creates cloudflare tunnel for specified localhost ssh_port
-        cloudflare logs stored under cloudflared.log,
-        metrics at localhost ssh_port+1 
+    Creates cloudflare tunnel for specified localhost:ssh_port
+    cloudflare logs stored under cloudflared.log,
+    metrics at localhost:ssh_port+1
+    
+    Parameters
+        ssh_port(int): port on which sshd_config has been configured
+        test(bool): enabled for testing server connection with sever as client
+    Returns
+        config_params(List[str]): contains all the ~/.ssh/config parameters to be set by client
+        hostname(str): exposed tunnel hostname
     """
     metrics_port = ssh_port+1
     cf_process = subprocess.Popen(["cloudflared","tunnel","--url","ssh://localhost:"+str(ssh_port),
@@ -53,8 +62,18 @@ def create_cf_tunnel(ssh_port: int) -> int:
                     "\tHostname %h",
                     "\tUser "+str(user),
                     "\tPort "+str(ssh_port),
-                    "\tStrictHostKeyChecking accept-new",
+                    "\tLogLevel ERROR",
+                    "\tUserKnownHostsFile /dev/null",
                     "\tProxyCommand cloudflared access ssh --hostname %h"]
+
+    test_config_params = ["Host "+str(hostname),
+                        "\tHostname %h",
+                        "\tUser "+str(user),
+                        "\tPort "+str(ssh_port),        
+                        "\tLogLevel ERROR",
+                        "\tUserKnownHostsFile /dev/null",
+                        "\tStrictHostKeyChecking no",
+                        "\tProxyCommand cloudflared access ssh --hostname %h"]
 
     print("#Client ~/.ssh/config")
     border ="#"+"-"*max(len(config_params[4]),len(config_params[0])) 
@@ -70,5 +89,8 @@ only those users whose public key has been added to the config will be able to a
     print(border2)
     print(client_ssh_terminal_connect)
     print(border2)
+
+    if test:
+        config_params = test_config_params
 
     return config_params, hostname

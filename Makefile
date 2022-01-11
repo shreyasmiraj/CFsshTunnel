@@ -1,10 +1,10 @@
 CURR_PATH := $(pwd)
 
-build-whl:	setup.py
-	python setup.py bdist_wheel
+build:	setup.py
+	python setup.py sdist bdist_wheel
 
 pip-install:
-	pip install -U ./dist/CFsshTunnel-0.1-py3-none-any.whl
+	pip install -U ./dist/CFsshTunnel-0.2-py3-none-any.whl
 
 install:
 	python setup.py install

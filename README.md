@@ -6,4 +6,16 @@
 	- run `make launch_server` on linux server to start the server tunnel
 	- connect to the tunneled server from either windows or linux ssh client through the domain assigned
 
+##pip installation
+```
+pip install CFsshTunnel==0.2
+```
+
+Using it directly from python notebook/script
+```
+import CFsshTunnel
+
+#Run either with all default parameters or update as needed
+CFsshTunnel.cloud_ssh_tunnel()
+```
 Dependencies on server side: python>=3.8, pip, python-apt, make

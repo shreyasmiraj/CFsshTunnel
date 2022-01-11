@@ -1,3 +1,4 @@
-from CFsshTunnel.cf_tunnel_config import create_cf_tunnel
+from CFsshTunnel.cloudflare_config import create_cf_tunnel
 from CFsshTunnel.package_installer import install_package
 from CFsshTunnel.ssh_config import ssh_config, start_ssh_server, add_authorized_public_keys, sshd_config, connect_to_server
+from CFsshTunnel.CFsshTunnel import cloud_ssh_tunnel
