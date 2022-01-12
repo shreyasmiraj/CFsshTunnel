@@ -6,57 +6,59 @@ from pathlib import Path
 from typing import List
 
 
-def add_authorized_public_keys(public_keys: str=None):
-	"""
-	Adds allowed public keys to ~/.ssh/authorized_keys
-	Parameters:
-		public_key(str): authorized public keys for ssh
-	"""
-	if public_keys is None:
-		public_keys = str(getpass.getpass(prompt="ssh-rsa pub auth key:"))
+def add_authorized_public_keys(public_keys: str = None):
+    """
+    Adds allowed public keys to ~/.ssh/authorized_keys
+    Parameters:
+        public_key(str): authorized public keys for ssh
+    """
+    if public_keys is None:
+        public_keys = str(getpass.getpass(prompt="ssh-rsa pub auth key:"))
 
-	home = str(Path.home())
-	ssh_path = home+"/.ssh/"
-	if not os.path.exists(ssh_path):
-		os.mkdir(ssh_path)
-	try:
-		with open(ssh_path+"authorized_keys",'a+') as f:
-				f.write(public_keys)
-	except:
-		raise RuntimeError("Error occured while adding keys")
+    home = str(Path.home())
+    ssh_path = home + "/.ssh/"
+    if not os.path.exists(ssh_path):
+        os.mkdir(ssh_path)
+    try:
+        with open(ssh_path + "authorized_keys", 'a+') as f:
+            f.write(public_keys)
+    except BaseException:
+        raise RuntimeError("Error occured while adding keys")
 
 
-def sshd_config(ssh_port=random.randint(49153,65534), sshd_config_params: str=None) -> int:
-	"""
-	Setup sshd_config as specified by config_params array
-	Parameters:
-		port(int): selects a random port from 49153 to 65534 unless specified
-		sshd_config(List[str]): ssh_config parameters as a list of str
+def sshd_config(ssh_port=random.randint(49153, 65534),
+                sshd_config_params: str = None) -> int:
+    """
+    Setup sshd_config as specified by config_params array
+    Parameters:
+        port(int): selects a random port from 49153 to 65534 unless specified
+        sshd_config(List[str]): ssh_config parameters as a list of str
 
-	Returns:
-		(int): ssh port number
-	"""
-	if sshd_config_params is None:
-		config_params = ["ClientAliveInterval 120",
-						"PasswordAuthentication no",
-						"PermitRootLogin yes",
-						"Port "+str(ssh_port)]
-	else:
-		config_params = sshd_config_params
+    Returns:
+        (int): ssh port number
+    """
+    if sshd_config_params is None:
+        config_params = ["ClientAliveInterval 120",
+                         "PasswordAuthentication no",
+                         "PermitRootLogin yes",
+                         "Port " + str(ssh_port)]
+    else:
+        config_params = sshd_config_params
 
-	with open(r"/etc/ssh/sshd_config",'w') as f:
-		for config in config_params:
-			f.write(config+'\n')
-	return ssh_port
+    with open(r"/etc/ssh/sshd_config", 'w') as f:
+        for config in config_params:
+            f.write(config + '\n')
+    return ssh_port
+
 
 def ssh_config(config_params: str):
-	"""
-	Configures ~/.ssh/config based on input config parameter
-	Parameters
-		-config_params(str): Holds list of str paramters per line to be added to config
-	"""
-	home = str(Path.home())
-	ssh_path = home+"/.ssh/"
-	with open(ssh_path+"config","w+") as f:
-		for config in config_params:
-			f.write(config+"\n")
+    """
+    Configures ~/.ssh/config based on input config parameter
+    Parameters
+        config_params(str): Holds list of str paramters per line to be added to config
+    """
+    home = str(Path.home())
+    ssh_path = home + "/.ssh/"
+    with open(ssh_path + "config", "w+") as f:
+        for config in config_params:
+            f.write(config + "\n")
