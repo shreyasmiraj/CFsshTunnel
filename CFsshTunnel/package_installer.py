@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 
-def install_package(package_name: str):
+def apt_package_installer(package_name: str):
 	"""
 	Checks for package and installs if needed
 	Parameters
@@ -33,3 +33,4 @@ def deb_package_installer(package_url: str):
 	deb_name = url_split[-1]
 	subprocess.call(["wget", package_url])
 	subprocess.call(["sudo","dpkg","-i",deb_name])
+	subprocess.call(["sudo","rm","-f",deb_name])

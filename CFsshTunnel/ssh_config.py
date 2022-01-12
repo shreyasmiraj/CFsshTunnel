@@ -6,28 +6,27 @@ from pathlib import Path
 from typing import List
 
 
-def add_authorized_public_keys(public_keys: List[str] = []):
+def add_authorized_public_keys(public_keys: str=None):
 	"""
 	Adds allowed public keys to ~/.ssh/authorized_keys
 	Parameters:
-		public_key(List[str]): List of authorized public keys for ssh
+		public_key(str): authorized public keys for ssh
 	"""
-	if len(public_keys) == 0:
-		public_keys = [str(getpass.getpass(prompt="ssh-rsa pub auth key:"))]
+	if public_keys is None:
+		public_keys = str(getpass.getpass(prompt="ssh-rsa pub auth key:"))
 
 	home = str(Path.home())
 	ssh_path = home+"/.ssh/"
-	if os.path.exists(ssh_path) != True:
+	if not os.path.exists(ssh_path):
 		os.mkdir(ssh_path)
 	try:
 		with open(ssh_path+"authorized_keys",'a+') as f:
-			for key in public_keys:
-				f.write(str(key)+'\n')
+				f.write(public_keys)
 	except:
 		raise RuntimeError("Error occured while adding keys")
 
 
-def sshd_config(ssh_port=random.randint(49153,65534), sshd_config_params = []) -> int:
+def sshd_config(ssh_port=random.randint(49153,65534), sshd_config_params: str=None) -> int:
 	"""
 	Setup sshd_config as specified by config_params array
 	Parameters:
@@ -37,7 +36,7 @@ def sshd_config(ssh_port=random.randint(49153,65534), sshd_config_params = []) -
 	Returns:
 		(int): ssh port number
 	"""
-	if len(sshd_config_params) == 0:
+	if sshd_config_params is None:
 		config_params = ["ClientAliveInterval 120",
 						"PasswordAuthentication no",
 						"PermitRootLogin yes",
@@ -50,34 +49,14 @@ def sshd_config(ssh_port=random.randint(49153,65534), sshd_config_params = []) -
 			f.write(config+'\n')
 	return ssh_port
 
-
-def ssh_config(config_params):
+def ssh_config(config_params: str):
 	"""
 	Configures ~/.ssh/config based on input config parameter
 	Parameters
-		-config_params(List[str]): Holds list of str paramters per line to be added to config
-
+		-config_params(str): Holds list of str paramters per line to be added to config
 	"""
 	home = str(Path.home())
 	ssh_path = home+"/.ssh/"
 	with open(ssh_path+"config","w+") as f:
 		for config in config_params:
 			f.write(config+"\n")
-
-
-def start_ssh_server():
-	"""
-	Restart ssh
-	"""
-	subprocess.run(["service","ssh","restart"])
-
-
-def connect_to_server(hostname):
-	"""
-	Checks connection to server hostname
-	"""
-	check = subprocess.check_call(["ssh",hostname,"ls"],shell=False)
-	if check == 0:
-		print("Connected to remote server successfully!")
-	else:
-		print("Failed to connect to remote server")

@@ -5,15 +5,16 @@
 	- run `make launch_server` on linux server to start the server tunnel
 	- connect to the tunneled server from either windows or linux ssh client through the domain assigned
 
-Dependencies on server side: python>=3.8, pip, python-apt, make
-Cloudflared installation: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation
+Server dependencies: python>=3.5, pip, python-apt, make
+
+Client dependencies: ssh, Cloudflared installation: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation
 
 ## pip install
 ```
-pip install CFsshTunnel==0.4
+pip install CFsshTunnel==0.5
 ```
 
-Using it directly from python notebook/script
+## Using it directly from python notebook/script
 ```
 import CFsshTunnel
 
