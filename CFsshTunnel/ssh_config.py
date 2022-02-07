@@ -1,6 +1,5 @@
 import getpass
 import random
-import subprocess
 import os
 from pathlib import Path
 from typing import List
@@ -13,7 +12,7 @@ def add_authorized_public_keys(public_keys: str = None):
         public_key(str): authorized public keys for ssh
     """
     if public_keys is None:
-        public_keys = str(getpass.getpass(prompt="ssh-rsa pub auth key:"))
+        public_keys = [str(getpass.getpass(prompt="ssh-rsa pub auth key:"))]
 
     home = str(Path.home())
     ssh_path = home + "/.ssh/"
@@ -21,7 +20,9 @@ def add_authorized_public_keys(public_keys: str = None):
         os.mkdir(ssh_path)
     try:
         with open(ssh_path + "authorized_keys", 'a+') as f:
-            f.write(public_keys)
+            for public_key in public_keys:
+                f.write(public_key)
+                f.write('\n')
     except BaseException:
         raise RuntimeError("Error occured while adding keys")
 
