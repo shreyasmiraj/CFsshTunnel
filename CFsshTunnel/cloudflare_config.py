@@ -42,9 +42,9 @@ def extract_tunnel_metrics(metrics_url: str):
                 hostname_begin_str = "userHostname=\"https://"
                 hostname_end_str = "\"}"
                 begin = response.find(hostname_begin_str)
+                response = response[begin + len(hostname_begin_str):]
                 end = response.find(hostname_end_str)
-                hostname = response[begin +
-                                    len(hostname_begin_str):end]
+                hostname = response[:end]
                 user = getpass.getuser()
         except BaseException:
             time.sleep(10)
