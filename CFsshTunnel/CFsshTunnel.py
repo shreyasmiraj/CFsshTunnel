@@ -17,6 +17,7 @@ def cloud_ssh_tunnel(
     """
     Configures and initiates server as specified by default/user
     Parameters
+        cloudflare_config_params(str): custom cloudflare_config for .cloudflared/config.yaml
         ssh_port(int): specifies port that openssh-server is listening to
         sshd_config(str): specifies config for sshd_config
         public_keys(str): list of authorized public keys to be added to server ~/.ssh/authorized_keys
