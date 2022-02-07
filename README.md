@@ -20,9 +20,13 @@ pip uninstall CFsshTunnel
 ## manual installation
 	- run `make build pip-install` to build and install the package
 	- run `make test` to test server and client functionality (requires server's pub rsa key to run the test successfully)
-	- run `make launch_server` on linux server to start the server tunnel
 
 ## Launching server
+
+### through make
+	- run `make launch_server` on linux server to start the server tunnel (launches with all default config)
+
+### from within python source/notebooks
 ```
 import CFsshTunnel
 #Run either with all default parameters or pass ssh/cloudflare config as required
