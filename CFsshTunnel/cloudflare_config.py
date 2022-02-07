@@ -5,7 +5,7 @@ import getpass
 import os
 from pathlib import Path
 from typing import List, Union
-
+from CFsshTunnel.decorated_print import box_equal_border, seperator_command_border, seperator_config_border
 
 def cloudflare_config(cloudflare_config_params: str = None):
     """
@@ -109,30 +109,20 @@ def create_cloudflare_tunnel(ssh_port: int,
             len(ssh_config_params),
             "\tStrictHostKeyChecking no")
 
-    header = "| openssh-server quick tunnel route through cloudflare is now alive |"
-    print("\n")
-    print("+" + "=" * (len(header) - 2) + "+")
-    print(header)
-    print("+" + "=" * (len(header) - 2) + "+")
+    header = "openssh-server quick tunnel route through cloudflare is now alive\n"
+    box_equal_border(header)
     print("Update ~/.ssh/config on client as below:\n")
+    print("#Client ~/.ssh/config")
+    seperator_config_border(ssh_config_params)
     print(
         "Note: Windows client users on PS/cmd, provide full path to cloudflared.exe in ProxyCommand\n\
+        Also applies to linux users if PATH to cloudflared isn't added to $PATH\n\
         Ex: Instead of \n\
             `ProxyCommand cloudflared access ssh --hostname %h`\n\
-        use `ProxyCommand <complete_path_to_cloudflare.exe> access ssh --hostname %h\n\n")
-    print("#Client ~/.ssh/config")
-    border = "#" + "-" * len(str(max(ssh_config_params, key=len)))
-    print(border)
-    for config in ssh_config_params:
-        print(config)
-    print(border)
-    print("\n\nConnect to openssh-server through the following public domain:")
-    print("Note: Since user authentication through ssh-rsa key pair is configured to be true by default,\n\
-only those users whose public key has been added to the config will be able to access the server\n")
-    client_ssh_terminal_connect = "$ ssh " + str(hostname)
-    border2 = "-" * len(client_ssh_terminal_connect)
-    print(border2)
-    print(client_ssh_terminal_connect)
-    print(border2)
-
+        use `ProxyCommand <complete_path_to_cloudflare.exe> access ssh --hostname %h\n")
+    print("\nConnect to openssh-server through the following public domain:")
+    client_command = "$ ssh " + str(hostname)
+    seperator_command_border(client_command)
+    print("\nNote: Since user authentication through ssh-rsa key pair is configured to be true by default,\n\
+        only those users whose public key has been added to the config will be able to access the server")
     return ssh_config_params, hostname
