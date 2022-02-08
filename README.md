@@ -19,18 +19,18 @@ pip uninstall CFsshTunnel
 
 ## manual installation
 	- run `make build pip-install` to build and install the package
-	- run `make test` to test server and client functionality (requires server's pub rsa key to run the test successfully)
+	- run `sudo make test` to test server and client functionality (requires server's pub rsa key to run the test successfully)
 
 ## Launching server
 
 ### through make
-	- run `make launch_server` on linux server to start the server tunnel (launches with all default config)
+	- run `sudo make launch_server` on linux server to start the server tunnel (launches with all default config)
 
 ### from within python source/notebooks
 ```
 import CFsshTunnel
 #Run either with all default parameters or pass ssh/cloudflare config as required
-CFsshTunnel.cloud_ssh_tunnel()
+CFsshTunnel.CFsshTunnel()
 ```
 
 execute as root/sudo user since python-apt, /etc/ssh/sshd_config and ~/.ssh/config require that access
@@ -41,7 +41,7 @@ ssh Port designation is set to random between `49153 to 65534` unless specified
 
 cloudflare logging should be available as ./cloudflared.log
 
-cloudflare metrics will be on ssh://localhost:ssh_port+1
+cloudflare metrics will be on http://localhost:metrics_port
 
 Successful server tunneling will give a similar terminal output with details for client config and connection
 ![image](https://user-images.githubusercontent.com/19603746/148923523-39d9f492-388d-4251-8b88-c3247ff809eb.png)
