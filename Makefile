@@ -21,3 +21,4 @@ clean:
 	rm -rf dist
 	rm -rf cloudflared.log
 	rm -rf ./CFsshTunnel/__pycache__
+	pip uninstall CFsshTunnel
