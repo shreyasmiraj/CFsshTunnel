@@ -35,7 +35,7 @@ CFsshTunnel.CFsshTunnel()
 
 ## Code-Server
 
-### Launching to codeserver
+### Launching code-server and mapping to tunnel domain
 ```
 from CFsshTunnel.code_server.code_server import launch_codeserver
 #cloudflare config and port designation can be specified as required

@@ -1,6 +1,7 @@
 import subprocess
 import random
 import getpass
+from sys import stdin
 from CFsshTunnel.cloudflare.cloudflare import create_cloudflare_tunnel
 from CFsshTunnel.cloudflare.cloudflare_config import extract_tunnel_metrics, cloudflare_config
 from CFsshTunnel.utils.decorated_print import box_border
@@ -13,9 +14,13 @@ def install_codeserver():
     """
     package_installed = check_installed("code-server")
     if package_installed is False:
-        process = subprocess.Popen(
-            "curl -fsSL https://code-server.dev/install.sh | sh".split(" "))
-        process.wait()
+        print("Installing code-server")
+        curl_process = subprocess.Popen(
+            "curl -fsSL https://code-server.dev/install.sh".split(" "),
+            stdout=subprocess.PIPE)
+        install_process = subprocess.check_output(
+            ("sh"), stdin=curl_process.stdout)
+        curl_process.wait()
 
 
 def launch_codeserver(

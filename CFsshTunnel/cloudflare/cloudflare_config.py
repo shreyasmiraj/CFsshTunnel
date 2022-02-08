@@ -19,7 +19,7 @@ def cloudflare_config(cloudflare_config_params: str = None):
             with open(cloudflared_config_path + "config.yaml") as f:
                 f.write(cloudflare_config_params)
                 return True
-        except:
+        except BaseException:
             raise RuntimeError("Failed to configure cloudflare")
     return False
 
@@ -43,7 +43,7 @@ def extract_tunnel_metrics(metrics_url: str) -> str:
                 response = response[begin + len(hostname_begin_str):]
                 end = response.find(hostname_end_str)
                 hostname = response[:end]
-        except:
+        except BaseException:
             time.sleep(10)
         if hostname is None:
             raise RuntimeError(
