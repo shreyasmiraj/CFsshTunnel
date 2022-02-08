@@ -27,11 +27,7 @@ def CFsshTunnel(
     """
     # Check required packages on server and install if required
     apt_package_installer("openssh-server")
-
-    # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation
-    cloudflare_deb_url = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"
-    deb_package_installer("cloudflared", cloudflare_deb_url)
-
+    
     # accepts List[str] or just str
     add_authorized_public_keys(public_keys=public_keys)
 
