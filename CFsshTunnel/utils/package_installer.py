@@ -1,4 +1,5 @@
 from logging import raiseExceptions
+from operator import ifloordiv
 import apt
 import sys
 import subprocess
@@ -33,21 +34,17 @@ def deb_package_installer(package_name: str, package_url: str):
     """
     Downloads and installs .deb pack from specified url
     """
-    try:
-        cache = apt.cache.Cache()
-        cache.update()
-        cache.open()
-        print("Checking for " + package_name)
-        pkg = cache[package_name]
-
-        if pkg.is_installed:
-            print("{pkg_name} already installed".format(pkg_name=package_name))
-        else:
-            print("Installing {pkg_name}".format(pkg_name=package_name))
-            url_split = package_url.split('/')
-            deb_name = url_split[-1]
+    cache = apt.Cache()
+    package_installed = False
+    if package_name in cache:
+        print("{pkg_name} already installed".format(pkg_name=package_name))
+    else:
+        print("Installing {pkg_name}".format(pkg_name=package_name))
+        url_split = package_url.split('/')
+        deb_name = url_split[-1]
+        try:
             subprocess.call(["wget", package_url])
             subprocess.call(["sudo", "dpkg", "-i", deb_name])
             subprocess.call(["sudo", "rm", "-f", deb_name])
-    except BaseException:
-        raise RuntimeError("Failed to install " + package_name)
+        except:
+            raise RuntimeError("Failed to install package {pkg_name}".format(pkg_name=package_name))
