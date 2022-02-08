@@ -28,12 +28,21 @@ def apt_package_installer(package_name: str):
                 pkg_name=package_name, err=str(arg))
 
 
-def deb_package_installer(package_url: str):
+def deb_package_installer(package_name: str, package_url: str):
     """
     Downloads and installs .deb pack from specified url
     """
-    url_split = package_url.split('/')
-    deb_name = url_split[-1]
-    subprocess.call(["wget", package_url])
-    subprocess.call(["sudo", "dpkg", "-i", deb_name])
-    subprocess.call(["sudo", "rm", "-f", deb_name])
+    cache = apt.cache.Cache()
+    cache.update()
+    cache.open()
+    print("Checking for " + package_name)
+    pkg = cache[package_name]
+
+    if pkg.is_installed:
+        print("{pkg_name} already installed".format(pkg_name=package_name))
+    else:
+        url_split = package_url.split('/')
+        deb_name = url_split[-1]
+        subprocess.call(["wget", package_url])
+        subprocess.call(["sudo", "dpkg", "-i", deb_name])
+        subprocess.call(["sudo", "rm", "-f", deb_name])

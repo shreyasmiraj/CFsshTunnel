@@ -1,6 +1,7 @@
 import subprocess
 import time
 
+
 def create_cloudflare_tunnel(cloudflare_call: str = None,
                              configured_cloudflare: bool = False,
                              ):
@@ -13,7 +14,7 @@ def create_cloudflare_tunnel(cloudflare_call: str = None,
         cloudflare_call(str): cloudflared command to execute
         configured_cloudflare(bool): set to true if ~/.cloudflared/config.yaml
     """
-    
+
     configured_cloudflare_call = "cloudflared tunnel --config ~/.cloudflared/config.yaml"
 
     if configured_cloudflare:

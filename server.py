@@ -1,5 +1,5 @@
-from CFsshTunnel.CFsshTunnel import keep_alive, cloud_ssh_tunnel
+from CFsshTunnel.CFsshTunnel import CFsshTunnel, keep_alive
 
 if __name__ == "__main__":
-    cloud_ssh_tunnel()
+    CFsshTunnel()
     keep_alive()

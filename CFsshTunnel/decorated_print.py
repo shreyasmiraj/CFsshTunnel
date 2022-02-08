@@ -1,7 +1,7 @@
 from typing import List
 
 
-def box_equal_border(text: str) -> None:
+def box_border(text: str) -> None:
     """
         Adds a box border made of "=" around the passed text
     """
@@ -10,10 +10,13 @@ def box_equal_border(text: str) -> None:
     if len(text_split[len(text_split) - 1]) == 0:
         text_split.pop(len(text_split) - 1)
     max_text_length = len(str(max(text_split, key=len)))
-    print("+" + "=" * (max_text_length+2) + "+")
+    print("+" + "=" * (max_text_length + 2) + "+")
     for row in text_split:
-        print("| " + row + " |")
-    print("+" + "=" * (max_text_length+2) + "+")
+        end_filler = " "
+        if len(row) < max_text_length:
+            end_filler *= max_text_length - len(row) + 1
+        print("| " + row + end_filler + "|")
+    print("+" + "=" * (max_text_length + 2) + "+")
     print("\n")
 
 

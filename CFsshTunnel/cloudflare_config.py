@@ -3,6 +3,7 @@ import urllib.request
 import os
 from pathlib import Path
 
+
 def cloudflare_config(cloudflare_config_params: str = None):
     """
     Setup ~/.cloudflared/config.yaml file if config is passed
