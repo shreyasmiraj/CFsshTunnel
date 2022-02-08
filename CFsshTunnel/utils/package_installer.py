@@ -1,9 +1,15 @@
-from logging import raiseExceptions
-from operator import ifloordiv
-from struct import pack
-import apt
 import sys
 import subprocess
+import apt
+
+
+def check_installed(package_name: str) -> bool:
+    print("Checking for " + package_name)
+    cache = apt.Cache()
+    package_installed = False
+    if package_name in cache:
+        package_installed = cache[package_name].is_installed
+    return package_installed
 
 
 def apt_package_installer(package_name: str):
@@ -12,18 +18,19 @@ def apt_package_installer(package_name: str):
     Parameters
         package_name(str): name of the package to be installed
     """
-    cache = apt.cache.Cache()
-    cache.update()
-    cache.open()
-    print("Checking for " + package_name)
-    pkg = cache[package_name]
+    package_installed = check_installed(package_name=package_name)
 
-    if pkg.is_installed:
+    if package_installed:
         print("{pkg_name} already installed".format(pkg_name=package_name))
     else:
         print(
             "Installing {pkg_name} through apt-get".format(pkg_name=package_name))
-        pkg.mark_install()
+
+        cache = apt.cache.Cache()
+        cache.update()
+        cache.open()
+        package = cache[package_name]
+        package.mark_install()
         try:
             cache.commit()
         except Exception as arg:
@@ -35,13 +42,9 @@ def deb_package_installer(package_name: str, package_url: str):
     """
     Downloads and installs .deb pack from specified url
     """
-    cache = apt.Cache()
-    package_installed = False
-    if package_name in cache:
-        package_installed = cache[package_name].is_installed
-        
+    package_installed = check_installed(package_name=package_name)
     if package_installed:
-                print("{pkg_name} already installed".format(pkg_name=package_name))
+        print("{pkg_name} already installed".format(pkg_name=package_name))
     else:
         print("Installing {pkg_name}".format(pkg_name=package_name))
         url_split = package_url.split('/')
@@ -50,5 +53,7 @@ def deb_package_installer(package_name: str, package_url: str):
             subprocess.call(["wget", package_url])
             subprocess.call(["sudo", "dpkg", "-i", deb_name])
             subprocess.call(["sudo", "rm", "-f", deb_name])
-        except:
-            raise RuntimeError("Failed to install package {pkg_name}".format(pkg_name=package_name))
+        except BaseException:
+            raise RuntimeError(
+                "Failed to install package {pkg_name}".format(
+                    pkg_name=package_name))

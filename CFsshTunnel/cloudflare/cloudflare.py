@@ -19,7 +19,7 @@ def create_cloudflare_tunnel(cloudflare_call: str = None,
 
     if configured_cloudflare:
         cloudflare_call = configured_cloudflare_call
-
+    print("Setting up")
     cf_process = subprocess.Popen(
         cloudflare_call.split(" "),
         stdout=subprocess.PIPE,

@@ -4,8 +4,6 @@ import os
 from pathlib import Path
 from typing import List
 
-from CFsshTunnel.ssh import ssh
-
 
 def add_authorized_public_keys(public_keys: str = None):
     """
@@ -58,14 +56,14 @@ def ssh_config_params(hostname: str, user: str, ssh_port: int) -> List[str]:
     """
     Returns ssh client config for the given hostname, user and port
     """
-    ssh_config_params = ["Host " + str(hostname),
-                         "\tHostname %h",
-                         "\tUser " + str(user),
-                         "\tPort " + str(ssh_port),
-                         "\tLogLevel ERROR",
-                         "\tUserKnownHostsFile /dev/null",
-                         "\tProxyCommand cloudflared access ssh --hostname %h"]
-    return ssh_config_params
+    config_params = ["Host " + str(hostname),
+                     "\tHostname %h",
+                     "\tUser " + str(user),
+                     "\tPort " + str(ssh_port),
+                     "\tLogLevel ERROR",
+                     "\tUserKnownHostsFile /dev/null",
+                     "\tProxyCommand cloudflared access ssh --hostname %h"]
+    return config_params
 
 
 def ssh_config(config_params: str):

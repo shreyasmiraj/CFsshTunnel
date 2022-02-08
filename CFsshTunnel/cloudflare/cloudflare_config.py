@@ -10,9 +10,7 @@ def cloudflare_config(cloudflare_config_params: str = None):
     Parameters
         cloudflare_config_params(str): str of config to be added to ~/.cloudflared/config.yaml
     """
-    if cloudflare_config_params is None:
-        return False
-    else:
+    if cloudflare_config_params is not None:
         home = Path.home()
         cloudflared_config_path = home + "/.cloudflared/"
         if not os.path.exists(cloudflared_config_path):
@@ -21,15 +19,18 @@ def cloudflare_config(cloudflare_config_params: str = None):
             with open(cloudflared_config_path + "config.yaml") as f:
                 f.write(cloudflare_config_params)
                 return True
-        except BaseException:
+        except:
             raise RuntimeError("Failed to configure cloudflare")
+    return False
 
 
-def extract_tunnel_metrics(metrics_url: str):
+def extract_tunnel_metrics(metrics_url: str) -> str:
     """
     Utility function to extract hostname from cloudflare tunnel metrics
     Parameters
         metrics_url(str): str of url to cloudflare metrics
+    Returns
+        hostname(str): returns tunnel hostname
     """
     hostname = None
     for _ in range(10):
@@ -42,7 +43,7 @@ def extract_tunnel_metrics(metrics_url: str):
                 response = response[begin + len(hostname_begin_str):]
                 end = response.find(hostname_end_str)
                 hostname = response[:end]
-        except BaseException:
+        except:
             time.sleep(10)
         if hostname is None:
             raise RuntimeError(

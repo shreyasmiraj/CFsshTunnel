@@ -11,8 +11,8 @@ if __name__ == "__main__":
     # Check required packages on server and install if required
     apt_package_installer("openssh-server")
 
-    cloudflare_deb_path = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"
-    deb_package_installer("cloudflared", cloudflare_deb_path)
+    CLOUDFLARE_DEB_PATH = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"
+    deb_package_installer("cloudflared", CLOUDFLARE_DEB_PATH)
 
     # accepts List[str] or just str
     print("\nProvide public auth key for current user running the test server")
@@ -20,32 +20,32 @@ if __name__ == "__main__":
 
     # update ssh_config as specified by user or default parameters and random
     # port if not
-    ssh_port = sshd_config()
+    SSH_PORT = sshd_config()
 
     # restarts openssh-server service with new ssh_config
     start_ssh_server()
 
-    metrics_port = random.randint(49153, 65534)
-    if metrics_port == ssh_port:
-        metrics_port += 1
+    METRICS_PORT = random.randint(49153, 65534)
+    if METRICS_PORT == SSH_PORT:
+        METRICS_PORT += 1
 
-    ssh_cloudflare_call = "cloudflared tunnel --url ssh://localhost:" + str(ssh_port) +\
+    SSH_CLOUDFLARE_CALL = "cloudflared tunnel --url ssh://localhost:" + str(SSH_PORT) +\
         " --logfile cloudflared.log --metrics localhost:" + \
-        str(metrics_port)
+        str(METRICS_PORT)
 
-    metrics_url = "http://localhost:" + str(metrics_port) + "/" + "metrics"
+    METRICS_URL = "http://localhost:" + str(METRICS_PORT) + "/" + "metrics"
     # create a trycloudflare.com free tunnel and route
-    # ssh://localhost:ssh_port throught the assigned public domain
-    create_cloudflare_tunnel(cloudflare_call=ssh_cloudflare_call)
+    # ssh://localhost:SSH_PORT throught the assigned public domain
+    create_cloudflare_tunnel(cloudflare_call=SSH_CLOUDFLARE_CALL)
 
-    hostname = extract_tunnel_metrics(metrics_url)
-    user = getpass.getuser()
+    HOSTNAME = extract_tunnel_metrics(METRICS_URL)
+    USER = getpass.getuser()
 
-    ssh_configuration = ssh_config_params(
-        hostname=hostname, user=user, ssh_port=ssh_port)
+    SSH_CONFIGURATION = ssh_config_params(
+        hostname=HOSTNAME, user=USER, ssh_port=SSH_PORT)
 
     # update client side ssh_config_params
-    ssh_config(ssh_configuration)
+    ssh_config(SSH_CONFIGURATION)
 
     # connect to ssh-server through cloudflare public domain tunnel
-    connect_to_server(hostname)
+    connect_to_server(HOSTNAME)

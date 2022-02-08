@@ -6,7 +6,6 @@ from CFsshTunnel.utils.package_installer import apt_package_installer, deb_packa
 from CFsshTunnel.ssh.ssh_config import add_authorized_public_keys, sshd_config, ssh_config_params
 from CFsshTunnel.ssh.ssh import start_ssh_server
 from CFsshTunnel.utils.decorated_print import box_border, seperator_command_border, seperator_config_border
-from typing import List
 
 
 def CFsshTunnel(
@@ -95,5 +94,5 @@ def CFsshTunnel(
 
 def keep_alive(state: bool = True):
     # keeps the server alive?
-    while(state):
+    while state:
         continue
