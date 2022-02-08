@@ -1,3 +1,4 @@
+from logging import raiseExceptions
 import apt
 import sys
 import subprocess
@@ -41,9 +42,13 @@ def deb_package_installer(package_name: str, package_url: str):
 
         if pkg.is_installed:
             print("{pkg_name} already installed".format(pkg_name=package_name))
+        else:
+            print("Installing {pkg_name}".format(pkg_name=package_name))
+            url_split = package_url.split('/')
+            deb_name = url_split[-1]
+            subprocess.call(["wget", package_url])
+            subprocess.call(["sudo", "dpkg", "-i", deb_name])
+            subprocess.call(["sudo", "rm", "-f", deb_name])
     except:
-        url_split = package_url.split('/')
-        deb_name = url_split[-1]
-        subprocess.call(["wget", package_url])
-        subprocess.call(["sudo", "dpkg", "-i", deb_name])
-        subprocess.call(["sudo", "rm", "-f", deb_name])
+        raise RuntimeError("Failed to install "+package_name)
+        
