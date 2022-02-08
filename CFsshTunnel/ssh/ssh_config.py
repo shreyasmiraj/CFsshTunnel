@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 from typing import List
 
-from CFsshTunnel import ssh
+from CFsshTunnel.ssh import ssh
 
 
 def add_authorized_public_keys(public_keys: str = None):

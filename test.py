@@ -1,10 +1,10 @@
 import random
 import getpass
-from CFsshTunnel.package_installer import apt_package_installer, deb_package_installer
-from CFsshTunnel.ssh_config import add_authorized_public_keys, ssh_config_params, sshd_config, ssh_config
-from CFsshTunnel.ssh import start_ssh_server, connect_to_server
-from CFsshTunnel.cloudflare import create_cloudflare_tunnel
-from CFsshTunnel.cloudflare_config import extract_tunnel_metrics
+from CFsshTunnel.utils.package_installer import apt_package_installer, deb_package_installer
+from CFsshTunnel.ssh.ssh_config import add_authorized_public_keys, ssh_config_params, sshd_config, ssh_config
+from CFsshTunnel.ssh.ssh import start_ssh_server, connect_to_server
+from CFsshTunnel.cloudflare.cloudflare import create_cloudflare_tunnel
+from CFsshTunnel.cloudflare.cloudflare_config import extract_tunnel_metrics
 
 if __name__ == "__main__":
 

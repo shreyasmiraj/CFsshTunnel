@@ -49,6 +49,5 @@ def deb_package_installer(package_name: str, package_url: str):
             subprocess.call(["wget", package_url])
             subprocess.call(["sudo", "dpkg", "-i", deb_name])
             subprocess.call(["sudo", "rm", "-f", deb_name])
-    except:
-        raise RuntimeError("Failed to install "+package_name)
-        
+    except BaseException:
+        raise RuntimeError("Failed to install " + package_name)
