@@ -56,8 +56,17 @@ cloudflare logging should be available as ./cloudflared.log
 
 cloudflare metrics will be on http://localhost:metrics_port
 
-Successful server tunneling will give a similar terminal output with details for client config and connection
-![image](https://user-images.githubusercontent.com/19603746/148923523-39d9f492-388d-4251-8b88-c3247ff809eb.png)
+### Execution snippets from a notebook
+![image](https://user-images.githubusercontent.com/19603746/153012921-2551412b-9861-445f-93ab-53dd13ecabd8.png)
+
+#### ssh_cloudflare tunnel
+![image](https://user-images.githubusercontent.com/19603746/153013085-ddbece3c-1309-423f-9b0c-9b3d2983d6c4.png)
+
+#### code-server cloudflare tunnel
+![image](https://user-images.githubusercontent.com/19603746/153013345-1a299234-c454-4c63-8b56-ecdbe8dbb9a0.png)
+
+![image](https://user-images.githubusercontent.com/19603746/153013449-5296b7bf-8d35-4905-b357-3f65c58f828a.png)
+
 
 
 
