@@ -5,7 +5,7 @@ from sys import stdin
 from CFsshTunnel.cloudflare.cloudflare import create_cloudflare_tunnel
 from CFsshTunnel.cloudflare.cloudflare_config import extract_tunnel_metrics, cloudflare_config
 from CFsshTunnel.utils.decorated_print import box_border
-from CFsshTunnel.utils.package_installer import check_installed
+from CFsshTunnel.utils.package_installer import check_installed, deb_package_installer
 
 
 def install_codeserver():
@@ -36,6 +36,11 @@ def launch_codeserver(
     """
     # install code-server if required
     install_codeserver()
+
+    # install cloudflare if required
+    # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation
+    cloudflare_deb_url = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"
+    deb_package_installer("cloudflared", cloudflare_deb_url)
 
     # code-server launch comand
     codeserver_command = "code-server --bind-addr localhost:" + str(port)

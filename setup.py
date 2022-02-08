@@ -6,7 +6,7 @@ with open("README.md", "r") as f:
 setup(
     name='CFsshTunnel',
     packages=find_packages(),
-    version='1.4',
+    version='1.5',
     license='MIT',
     description='Cloudflare Tunnel for open-ssh and code-server',
     long_description=long_description,
