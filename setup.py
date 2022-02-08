@@ -6,9 +6,9 @@ with open("README.md", "r") as f:
 setup(
     name='CFsshTunnel',
     packages=find_packages(),
-    version='1.1',
+    version='1.2',
     license='MIT',
-    description='A light weight open-ssh server tunnel through cloudflare free tunnel service',
+    description='Cloudflare Tunnel for open-ssh and code-server',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url='https://github.com/ThePilot916/CFsshTunnel.git',
@@ -20,6 +20,8 @@ setup(
         'colab_ssh',
         'aws',
         'aws_ssh',
+        'code-server',
+        'remote development'
         'vscode_server',
         'vscode_remote',
         'google colab'],

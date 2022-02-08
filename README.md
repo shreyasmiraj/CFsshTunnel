@@ -33,6 +33,19 @@ import CFsshTunnel
 CFsshTunnel.CFsshTunnel()
 ```
 
+## Code-Server
+
+### Launching to codeserver
+```
+from CFsshTunnel.code_server.code_server import launch_codeserver
+#cloudflare config and port designation can be specified as required
+launch_codeserver()
+```
+### Connecting to code server
+```
+	just open the tunnel domain on any browser
+	password prompt should be visible asking for password from ~/.config/code-server/config.yaml or as configured in the code-server config.yaml(ex: cert)
+```
 execute as root/sudo user since python-apt, /etc/ssh/sshd_config and ~/.ssh/config require that access
 
 In case of runtime error due to failure to acquire cloudflare tunnel, just restart the server, should work in a try or two
