@@ -2,7 +2,7 @@ import time
 import urllib.request
 import os
 from pathlib import Path
-
+from CFsshTunnel.utils.package_installer import deb_package_installer
 
 def cloudflare_config(cloudflare_config_params: str = None):
     """
