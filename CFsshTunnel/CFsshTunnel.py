@@ -79,7 +79,7 @@ def CFsshTunnel(
     box_border(header)
     print("Update ~/.ssh/config on client as below:\n")
     print("#Client ~/.ssh/config")
-    seperator_config_border(ssh_config_params)
+    seperator_config_border(ssh_configuration)
     print(
         "Note: Windows client users on PS/cmd, provide full path to cloudflared.exe in ProxyCommand\n\
         Also applies to linux users if PATH to cloudflared isn't added to $PATH\n\
@@ -91,7 +91,7 @@ def CFsshTunnel(
     seperator_command_border(client_command)
     print("\nNote: Since user authentication through ssh-rsa key pair is configured to be true by default,\n\
         only those users whose public key has been added to the config will be able to access the server")
-    return ssh_config_params, hostname
+    return ssh_configuration, hostname
 
 
 def keep_alive(state: bool = True):
