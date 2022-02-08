@@ -1,5 +1,6 @@
 from logging import raiseExceptions
 from operator import ifloordiv
+from struct import pack
 import apt
 import sys
 import subprocess
@@ -37,7 +38,10 @@ def deb_package_installer(package_name: str, package_url: str):
     cache = apt.Cache()
     package_installed = False
     if package_name in cache:
-        print("{pkg_name} already installed".format(pkg_name=package_name))
+        package_installed = cache[package_name].is_installed
+        
+    if package_installed:
+                print("{pkg_name} already installed".format(pkg_name=package_name))
     else:
         print("Installing {pkg_name}".format(pkg_name=package_name))
         url_split = package_url.split('/')
