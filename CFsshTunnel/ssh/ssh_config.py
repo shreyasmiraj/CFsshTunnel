@@ -3,7 +3,6 @@ import random
 import os
 from pathlib import Path
 from typing import List
-from CFsshTunnel.utils.package_installer import apt_package_installer
 
 
 def add_authorized_public_keys(public_keys: str = None):
@@ -13,8 +12,6 @@ def add_authorized_public_keys(public_keys: str = None):
         public_key(str): authorized public keys for ssh
     """
     
-    # Check required packages on server and install if required
-    apt_package_installer("openssh-server")
     if public_keys is None:
         public_keys = [str(getpass.getpass(prompt="ssh-rsa pub auth key:"))]
 
@@ -42,8 +39,7 @@ def sshd_config(ssh_port=random.randint(49153, 65534),
     Returns:
         (int): ssh port number
     """
-    # Check required packages on server and install if required
-    apt_package_installer("openssh-server")
+
     if sshd_config_params is None:
         config_params = ["ClientAliveInterval 120",
                          "PasswordAuthentication no",
@@ -79,8 +75,6 @@ def ssh_config(config_params: str):
         config_params(str): Holds list of str paramters per line to be added to config
     """
     
-    # Check required packages on server and install if required
-    apt_package_installer("openssh-server")
     home = str(Path.home())
     ssh_path = home + "/.ssh/"
     with open(ssh_path + "config", "w+") as f:

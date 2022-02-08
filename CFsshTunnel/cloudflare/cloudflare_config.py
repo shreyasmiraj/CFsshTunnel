@@ -2,7 +2,6 @@ import time
 import urllib.request
 import os
 from pathlib import Path
-from CFsshTunnel.utils.package_installer import deb_package_installer
 
 def cloudflare_config(cloudflare_config_params: str = None):
     """
@@ -10,9 +9,6 @@ def cloudflare_config(cloudflare_config_params: str = None):
     Parameters
         cloudflare_config_params(str): str of config to be added to ~/.cloudflared/config.yaml
     """
-    # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation
-    cloudflare_deb_url = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"
-    deb_package_installer("cloudflared", cloudflare_deb_url)
     if cloudflare_config_params is not None:
         home = Path.home()
         cloudflared_config_path = home + "/.cloudflared/"

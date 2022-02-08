@@ -1,6 +1,5 @@
 import subprocess
 import time
-from CFsshTunnel.utils.package_installer import deb_package_installer
 
 def create_cloudflare_tunnel(cloudflare_call: str = None,
                              configured_cloudflare: bool = False,
@@ -14,10 +13,6 @@ def create_cloudflare_tunnel(cloudflare_call: str = None,
         cloudflare_call(str): cloudflared command to execute
         configured_cloudflare(bool): set to true if ~/.cloudflared/config.yaml
     """
-
-    # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation
-    cloudflare_deb_url = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"
-    deb_package_installer("cloudflared", cloudflare_deb_url)
 
     configured_cloudflare_call = "cloudflared tunnel --config ~/.cloudflared/config.yaml"
 
