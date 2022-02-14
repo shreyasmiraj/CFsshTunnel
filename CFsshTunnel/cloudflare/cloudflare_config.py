@@ -1,27 +1,5 @@
 import time
 import urllib.request
-import os
-from pathlib import Path
-
-def cloudflare_config(cloudflare_config_params: str = None):
-    """
-    Setup ~/.cloudflared/config.yaml file if config is passed
-    Parameters
-        cloudflare_config_params(str): str of config to be added to ~/.cloudflared/config.yaml
-    """
-    if cloudflare_config_params is not None:
-        home = Path.home()
-        cloudflared_config_path = home + "/.cloudflared/"
-        if not os.path.exists(cloudflared_config_path):
-            os.mkdir(cloudflared_config_path)
-        try:
-            with open(cloudflared_config_path + "config.yaml") as f:
-                f.write(cloudflare_config_params)
-                return True
-        except BaseException:
-            raise RuntimeError("Failed to configure cloudflare")
-    return False
-
 
 def extract_tunnel_metrics(metrics_url: str) -> str:
     """

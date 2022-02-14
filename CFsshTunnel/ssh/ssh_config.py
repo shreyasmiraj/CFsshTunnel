@@ -13,7 +13,7 @@ def add_authorized_public_keys(public_keys: str = None):
     """
     
     if public_keys is None:
-        public_keys = [str(getpass.getpass(prompt="ssh-rsa pub auth key:"))]
+        public_keys = [str(getpass.getpass(prompt="authorized ssh-rsa pub auth keys sep by newline:"))]
 
     home = str(Path.home())
     ssh_path = home + "/.ssh/"
@@ -33,8 +33,8 @@ def sshd_config(ssh_port=random.randint(49153, 65534),
     """
     Setup sshd_config as specified by config_params array
     Parameters:
-        port(int): selects a random port from 49153 to 65534 unless specified
-        sshd_config(List[str]): ssh_config parameters as a list of str
+        ssh_port(int): selects a random port from 49153 to 65534 unless specified
+        sshd_config(str): custom sshd_config
 
     Returns:
         (int): ssh port number
@@ -46,7 +46,7 @@ def sshd_config(ssh_port=random.randint(49153, 65534),
                          "PermitRootLogin yes",
                          "Port " + str(ssh_port)]
     else:
-        config_params = sshd_config_params
+        config_params = [sshd_config_params]
 
     with open(r"/etc/ssh/sshd_config", 'w') as f:
         for config in config_params:

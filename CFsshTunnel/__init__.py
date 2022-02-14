@@ -1,4 +1,4 @@
-from CFsshTunnel.cloudflare.cloudflare_config import cloudflare_config, extract_tunnel_metrics
+from CFsshTunnel.cloudflare.cloudflare_config import extract_tunnel_metrics
 from CFsshTunnel.cloudflare.cloudflare import create_cloudflare_tunnel
 from CFsshTunnel.utils.package_installer import apt_package_installer, deb_package_installer
 from CFsshTunnel.ssh.ssh_config import ssh_config, add_authorized_public_keys, sshd_config

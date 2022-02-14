@@ -1,29 +1,33 @@
 import random
 import getpass
-from CFsshTunnel.cloudflare.cloudflare_config import cloudflare_config, extract_tunnel_metrics
+from CFsshTunnel.cloudflare.cloudflare_config import extract_tunnel_metrics
 from CFsshTunnel.cloudflare.cloudflare import create_cloudflare_tunnel
 from CFsshTunnel.utils.package_installer import apt_package_installer, deb_package_installer
 from CFsshTunnel.ssh.ssh_config import add_authorized_public_keys, sshd_config, ssh_config_params
 from CFsshTunnel.ssh.ssh import start_ssh_server
 from CFsshTunnel.utils.decorated_print import box_border, seperator_command_border, seperator_config_border
-
+from typing import List, Tuple
 
 def CFsshTunnel(
-    cloudflare_config_params: str = None,
+    cloudflare_config_path: str = None,
     ssh_port=random.randint(
         49153,
         65534),
-        sshd_config_params: str = None,
-        public_keys: str = None,
-        test: bool = False):
+    sshd_config_params: str = None,
+    public_keys: str = None,
+    test: bool = False) -> Tuple[List[str], str, str]:
     """
     Configures and initiates server as specified by default/user
-    Parameters
-        cloudflare_config_params(str): custom cloudflare_config for .cloudflared/config.yaml
+    Args
+        cloudflare_config_path(str): path to custom cloudflare config.yaml
         ssh_port(int): specifies port that openssh-server is listening to
         sshd_config(str): specifies config for sshd_config
         public_keys(str): list of authorized public keys to be added to server ~/.ssh/authorized_keys
         keep_alive(bool): specifies where the server python program should keep running infdefinitely
+    Returns
+        ssh_configuration(List[str]): list of str of ssh config for client
+        hostname(str): cloudflare tunnel hostname
+        user(str): server username
     """
     # Check required packages on server and install if required
     apt_package_installer("openssh-server")
@@ -44,9 +48,6 @@ def CFsshTunnel(
     # restarts openssh-server service with new ssh_config
     start_ssh_server()
 
-    # configure cloudflare.yaml
-    configured_cloudflare = cloudflare_config(cloudflare_config_params)
-
     metrics_port = random.randint(49153, 65534)
     if metrics_port == ssh_port:
         metrics_port += 1
@@ -59,7 +60,7 @@ def CFsshTunnel(
     # ssh://localhost:ssh_port throught the assigned public domain
     create_cloudflare_tunnel(
         cloudflare_call=ssh_cloudflare_call,
-        configured_cloudflare=configured_cloudflare)
+        cloudflare_config_path=cloudflare_config_path)
 
     metrics_url = "http://localhost:" + str(metrics_port) + "/metrics"
     hostname = extract_tunnel_metrics(metrics_url)
@@ -89,7 +90,7 @@ def CFsshTunnel(
     seperator_command_border(client_command)
     print("\nNote: Since user authentication through ssh-rsa key pair is configured to be true by default,\n\
         only those users whose public key has been added to the config will be able to access the server")
-    return ssh_configuration, hostname
+    return ssh_configuration, hostname, user
 
 
 def keep_alive(state: bool = True):

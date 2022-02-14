@@ -2,7 +2,7 @@ import subprocess
 import time
 
 def create_cloudflare_tunnel(cloudflare_call: str = None,
-                             configured_cloudflare: bool = False,
+                             cloudflare_config_path: str = None
                              ):
     """
     Creates cloudflare tunnel for specified localhost:ssh_port
@@ -13,11 +13,14 @@ def create_cloudflare_tunnel(cloudflare_call: str = None,
         cloudflare_call(str): cloudflared command to execute
         configured_cloudflare(bool): set to true if ~/.cloudflared/config.yaml
     """
+    if cloudflare_config_path is None:
+        cloudflare_config_path = "~/.cloudflared/config.yaml"
 
-    configured_cloudflare_call = "cloudflared tunnel --config ~/.cloudflared/config.yaml"
+    configured_cloudflare_call = "cloudflared tunnel --config " + cloudflare_config_path 
 
-    if configured_cloudflare:
+    if cloudflare_call is None:
         cloudflare_call = configured_cloudflare_call
+
     cf_process = subprocess.Popen(
         cloudflare_call.split(" "),
         stdout=subprocess.PIPE,
