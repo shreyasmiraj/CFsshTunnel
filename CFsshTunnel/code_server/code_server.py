@@ -25,7 +25,7 @@ def launch_codeserver(user:str,
         server_port: int = random.randint(
             49153,
             65534),
-        client_port: int = 8080,
+        client_port: int = None,
         ssh_mode: bool = True
 ):
     """
@@ -43,6 +43,9 @@ def launch_codeserver(user:str,
     """
     # install code-server if required
     install_codeserver()
+    
+    if client_port is None:
+        client_port = server_port
 
     if ssh_mode is False:
         auth_mode = "password"
@@ -64,6 +67,6 @@ def launch_codeserver(user:str,
     subprocess.Popen(codeserver_command.split(" "))
     time.sleep(5)
     #port forward client localhost to remote instance
-    print("Port forward client localhost:8080 onto the remote code-server instance through ssh as follows(run this on your client device): \n")
-    seperator_command_border("ssh -N -L "+ str(client_port) + ":127.0.0.1:" + str(server_port) + " " + user + "@" + hostname + " " + "&")
+    print("\nPort forward client localhost:" + str(client_port) + "onto the remote code-server instance through ssh as follows(run this on your client device): ")
+    seperator_command_border("$ ssh -N -L "+ str(client_port) + ":127.0.0.1:" + str(server_port) + " " + user + "@" + hostname + " " + "&")
     box_border("Codeserver is now accessible at: http://localhost:" + str(client_port) +"\n Note: localhost cannot provide SSL, so use http instead of https")
