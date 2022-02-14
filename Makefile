@@ -4,7 +4,7 @@ build:	setup.py
 	python setup.py sdist bdist_wheel
 
 pip-install:
-	pip install -U ./dist/CFsshTunnel-0.1.8-py3-none-any.whl
+	pip install -U ./dist/CFsshTunnel-0.1.9-py3-none-any.whl
 
 install:
 	python setup.py install
