@@ -1,6 +1,7 @@
 import subprocess
 import time
 
+
 def create_cloudflare_tunnel(cloudflare_call: str = None,
                              cloudflare_config_path: str = None
                              ):
@@ -16,7 +17,7 @@ def create_cloudflare_tunnel(cloudflare_call: str = None,
     if cloudflare_config_path is None:
         cloudflare_config_path = "~/.cloudflared/config.yaml"
 
-    configured_cloudflare_call = "cloudflared tunnel --config " + cloudflare_config_path 
+    configured_cloudflare_call = "cloudflared tunnel --config " + cloudflare_config_path
 
     if cloudflare_call is None:
         cloudflare_call = configured_cloudflare_call

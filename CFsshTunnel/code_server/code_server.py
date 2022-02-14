@@ -19,15 +19,15 @@ def install_codeserver():
         curl_process.wait()
 
 
-def launch_codeserver(user:str,
-        hostname: str, 
-        code_server_config_path: str = None,
-        server_port: int = random.randint(
-            49153,
-            65534),
-        client_port: int = None,
-        ssh_mode: bool = True
-):
+def launch_codeserver(user: str,
+                      hostname: str,
+                      code_server_config_path: str = None,
+                      server_port: int = random.randint(
+                          49153,
+                          65534),
+                      client_port: int = None,
+                      ssh_mode: bool = True
+                      ):
     """
     Launch code-server on specified or random port and map it to specified cloudflare tunnel
     Args:
@@ -43,7 +43,7 @@ def launch_codeserver(user:str,
     """
     # install code-server if required
     install_codeserver()
-    
+
     if client_port is None:
         client_port = server_port
 
@@ -53,20 +53,28 @@ def launch_codeserver(user:str,
         auth_mode = "none"
 
     if code_server_config_path is None:
-        #defaul code-server config file
+        # defaul code-server config file
         code_server_config_path = "~/.config/code-server/config.yaml"
 
     # code-server launch comand
     codeserver_command = "code-server" + " "\
-         + "--bind-addr" + " " + "127.0.0.1:"+ str(server_port) + " "\
-         + "--auth" + " " + auth_mode + " "\
-         + "--config"+ " " + code_server_config_path
-    
+        + "--bind-addr" + " " + "127.0.0.1:" + str(server_port) + " "\
+        + "--auth" + " " + auth_mode + " "\
+        + "--config" + " " + code_server_config_path
+
     # launch code-server
     print("Launching code-server...")
     subprocess.Popen(codeserver_command.split(" "))
     time.sleep(5)
-    #port forward client localhost to remote instance
-    print("\nPort forward client localhost:" + str(client_port) + " onto the remote code-server instance through ssh as follows(run this on your client device): ")
-    seperator_command_border("$ ssh -N -L "+ str(client_port) + ":127.0.0.1:" + str(server_port) + " " + user + "@" + hostname + " " + "&")
-    box_border("Codeserver is now accessible at: http://localhost:" + str(client_port) +"\n Note: localhost cannot provide SSL, so use http instead of https")
+    # port forward client localhost to remote instance
+    print(
+        "\nPort forward client localhost:" +
+        str(client_port) +
+        " onto the remote code-server instance through ssh as follows(run this on your client device): ")
+    client_ssh_port_forward = "$ ssh -N -L " + \
+        str(client_port) + ":127.0.0.1:" + str(server_port) + " " + user + "@" + hostname + " "
+    seperator_command_border(client_ssh_port_forward)
+    box_border(
+        "Codeserver is now accessible at: http://localhost:" +
+        str(client_port) +
+        "\n Note: localhost cannot provide SSL, so use http instead of https")

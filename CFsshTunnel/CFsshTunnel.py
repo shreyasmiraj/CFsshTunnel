@@ -8,14 +8,15 @@ from CFsshTunnel.ssh.ssh import start_ssh_server
 from CFsshTunnel.utils.decorated_print import box_border, seperator_command_border, seperator_config_border
 from typing import List, Tuple
 
+
 def CFsshTunnel(
-    cloudflare_config_path: str = None,
-    ssh_port=random.randint(
-        49153,
-        65534),
-    sshd_config_params: str = None,
-    public_keys: str = None,
-    test: bool = False) -> Tuple[List[str], str, str]:
+        cloudflare_config_path: str = None,
+        ssh_port=random.randint(
+            49153,
+            65534),
+        sshd_config_params: str = None,
+        public_keys: str = None,
+        test: bool = False) -> Tuple[List[str], str, str]:
     """
     Configures and initiates server as specified by default/user
     Args

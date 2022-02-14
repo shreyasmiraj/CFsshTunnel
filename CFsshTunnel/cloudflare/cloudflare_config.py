@@ -1,6 +1,7 @@
 import time
 import urllib.request
 
+
 def extract_tunnel_metrics(metrics_url: str) -> str:
     """
     Utility function to extract hostname from cloudflare tunnel metrics

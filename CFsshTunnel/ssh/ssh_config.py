@@ -11,9 +11,10 @@ def add_authorized_public_keys(public_keys: str = None):
     Parameters:
         public_key(str): authorized public keys for ssh
     """
-    
+
     if public_keys is None:
-        public_keys = [str(getpass.getpass(prompt="authorized ssh-rsa pub auth keys sep by newline:"))]
+        public_keys = [str(getpass.getpass(
+            prompt="authorized ssh-rsa pub auth keys sep by newline:"))]
 
     home = str(Path.home())
     ssh_path = home + "/.ssh/"
@@ -74,7 +75,7 @@ def ssh_config(config_params: str):
     Parameters
         config_params(str): Holds list of str paramters per line to be added to config
     """
-    
+
     home = str(Path.home())
     ssh_path = home + "/.ssh/"
     with open(ssh_path + "config", "w+") as f:
