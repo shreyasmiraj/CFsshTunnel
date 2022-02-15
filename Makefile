@@ -1,12 +1,25 @@
 CURR_PATH := $(pwd)
 
+dependencies:
+	sudo apt-get update
+
+	#install_cloudflared
+	wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+	sudo dpkg -i cloudflared-linux-amd64.deb
+	#remove .deb file after installation
+	sudo rm -f cloudflared-linux-amd64.deb
+	
+	sudo apt-get install ssh
+
+	sudo apt-get install python-apt
+
 build:	setup.py
 	python setup.py sdist bdist_wheel
 
 pip-install:
-	pip install -U ./dist/CFsshTunnel-0.1.9-py3-none-any.whl
+	pip install -U ./dist/*.whl
 
-install:
+install: setup.py
 	python setup.py install
 
 test:	test.py

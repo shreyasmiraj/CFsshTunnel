@@ -1,6 +1,6 @@
 import subprocess
 import time
-
+from pathlib import Path
 
 def create_cloudflare_tunnel(cloudflare_call: str = None,
                              cloudflare_config_path: str = None
@@ -15,7 +15,8 @@ def create_cloudflare_tunnel(cloudflare_call: str = None,
         configured_cloudflare(bool): set to true if ~/.cloudflared/config.yaml
     """
     if cloudflare_config_path is None:
-        cloudflare_config_path = "~/.cloudflared/config.yaml"
+        home = str(Path.home())
+        cloudflare_config_path = home+"/.cloudflared/config.yaml"
 
     configured_cloudflare_call = "cloudflared tunnel --config " + cloudflare_config_path
 

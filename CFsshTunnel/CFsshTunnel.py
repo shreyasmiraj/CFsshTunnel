@@ -1,12 +1,13 @@
 import random
 import getpass
+
+from typing import List, Tuple
 from CFsshTunnel.cloudflare.cloudflare_config import extract_tunnel_metrics
 from CFsshTunnel.cloudflare.cloudflare import create_cloudflare_tunnel
 from CFsshTunnel.utils.package_installer import apt_package_installer, deb_package_installer
-from CFsshTunnel.ssh.ssh_config import add_authorized_public_keys, sshd_config, ssh_config_params
+from CFsshTunnel.ssh.ssh_config import add_authorized_public_keys, sshd_config, ssh_config_params, sshd_config
 from CFsshTunnel.ssh.ssh import start_ssh_server
 from CFsshTunnel.utils.decorated_print import box_border, seperator_command_border, seperator_config_border
-from typing import List, Tuple
 
 
 def CFsshTunnel(
@@ -92,9 +93,3 @@ def CFsshTunnel(
     print("\nNote: Since user authentication through ssh-rsa key pair is configured to be true by default,\n\
         only those users whose public key has been added to the config will be able to access the server")
     return ssh_configuration, hostname, user
-
-
-def keep_alive(state: bool = True):
-    # keeps the server alive?
-    while state:
-        continue
