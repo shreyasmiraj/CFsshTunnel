@@ -13,42 +13,42 @@ Client dependencies:
 - Cloudflared https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation
 	
 ----------------------------
-# Installation
+## Installation
 - [pip](#pip)
 - [source](#source)
-## pip
+### pip
 ```
 pip install CFsshTunnel
 ```
-### Uninstall
+#### Uninstall
 ```
 pip uninstall CFsshTunnel
 ```
-## source
+### source
 ```
 git clone https://github.com/ThePilot916/CFsshTunnel.git
 cd ./CFsshTunnel
-make build
-make pip-install
+make dependencies
+make install
 ```
-### Uninstall
+#### Uninstall
 ```
 sudo make clean
 make clean
 ```
 ----------------------------
 
-# Launching
+## Launching
 - [ssh-cloudflare-tunnel](#ssh-cloudflare-tunnel)
 - [code-server](#code-server)
 
 
-## ssh-cloudflare-tunnel
-### using make
+### ssh-cloudflare-tunnel
+#### using make
 ```
 sudo make launch_server	
 ```
-### python source/notebooks
+#### python source/notebooks
 ```
 import CFsshTunnel
 #Run either with all default parameters or pass ssh/cloudflare config as required
@@ -56,7 +56,7 @@ _, hostname, user = CFsshTunnel.CFsshTunnel()
 ```
 Note: Ensure to update ~/.ssh/config on the client as displayed on the output after running CFsshTunnel()
 
-## code-server
+### code-server
 ```
 import CFsshTunnel
 from CFsshTunnel.code_server.code_server import launch_codeserver
@@ -66,7 +66,8 @@ launch_codeserver(hostname=hostname, user=user)
 
 ----------------------------------
 ### client - setup
-Note: Ensure to update ~/.ssh/config on the client as displayed on the output after running CFsshTunnel()
+
+Ensure to update ~/.ssh/config on the client as displayed on the output after running CFsshTunnel()
 
 - ssh
 ```
