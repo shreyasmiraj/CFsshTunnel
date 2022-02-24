@@ -73,6 +73,10 @@ Ensure to update ~/.ssh/config on the client as displayed on the output after ru
 ```
 $ ssh <user>@<hostname>
 ```
+- sshfs
+```
+$sshfs -p <ssh_port> <user>@hostname>:/path/to/mount /mnt/dir
+```
 - code-server
 ```
 $ ssh -N -L <client_port>:127.0.0.1:<server_port> <user>@<hostname>
@@ -86,10 +90,3 @@ Now open http://localhost:<client_port> on any ssh client browser and enjoy!
 ![image](https://user-images.githubusercontent.com/19603746/153889417-2aac027d-d30d-4947-a17e-b6552e9c0b83.png)
 ![image](https://user-images.githubusercontent.com/19603746/153889593-e5368e12-70ac-4e44-907b-f8630a8f1447.png)
 ![image](https://user-images.githubusercontent.com/19603746/153889641-ca53ed07-10ce-4869-935f-7027b62d2735.png)
-
-
-
-
-
-
-
