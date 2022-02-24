@@ -45,7 +45,8 @@ def sshd_config(ssh_port=random.randint(49153, 65534),
         config_params = ["ClientAliveInterval 120",
                          "PasswordAuthentication no",
                          "PermitRootLogin yes",
-                         "Port " + str(ssh_port)]
+                         "Port " + str(ssh_port),
+												 "Subsystem sftp /usr/lib/sftp-server"]
     else:
         config_params = [sshd_config_params]
 
